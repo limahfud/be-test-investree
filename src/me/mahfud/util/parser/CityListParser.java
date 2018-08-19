@@ -15,7 +15,7 @@ public class CityListParser {
     }
 
     public List<City> getListCity() {
-        String regex = "(\\{[^{]*\\})(,|$)";
+        String regex = "(\\{[^{]*\\})(,|\\])";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(json);
 

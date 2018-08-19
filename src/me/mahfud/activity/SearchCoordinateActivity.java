@@ -2,13 +2,12 @@ package me.mahfud.activity;
 
 import me.mahfud.model.City;
 import me.mahfud.model.Weather;
-import me.mahfud.util.api.SearchCityApi;
+import me.mahfud.util.Constant;
 import me.mahfud.util.api.SearchCoordinateApi;
 import me.mahfud.util.api.WeatherCityApi;
 import me.mahfud.util.printer.CityPrinter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -73,5 +72,6 @@ public class SearchCoordinateActivity implements ActivityStartable {
         city.setWeatherList(weatherList);
 
         new CityPrinter(city).printWeather();
+        System.out.println(Constant.BLANK_STRING);
     }
 }

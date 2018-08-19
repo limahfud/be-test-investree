@@ -1,5 +1,11 @@
 package me.mahfud.activity;
 
+import me.mahfud.model.City;
+import me.mahfud.util.file.FileManager;
+import me.mahfud.util.printer.CityPrinter;
+
+import java.util.List;
+
 public class ShowAllActivity implements ActivityStartable {
 
     @Override
@@ -8,6 +14,11 @@ public class ShowAllActivity implements ActivityStartable {
     }
 
     private void showCities() {
-        // TODO showing all cities that had been saved from files
+        List<City> cities = FileManager.getInstance().listCitySaved();
+
+        for (City city: cities) {
+            new CityPrinter(city).printWeather();
+            System.out.println();
+        }
     }
 }

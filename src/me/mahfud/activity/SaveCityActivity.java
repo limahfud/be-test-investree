@@ -1,6 +1,9 @@
 package me.mahfud.activity;
 
 import me.mahfud.model.City;
+import me.mahfud.util.api.SaveCityApi;
+import me.mahfud.util.api.SearchCityApi;
+import me.mahfud.util.file.FileManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +13,7 @@ import java.util.Scanner;
 public class SaveCityActivity implements ActivityStartable {
 
     private Scanner scanner;
-    private final List<City> cityList = new ArrayList<>();
+    private List<City> cityList = new ArrayList<>();
 
     public SaveCityActivity(Scanner scanner) {
         this.scanner = scanner;
@@ -38,10 +41,8 @@ public class SaveCityActivity implements ActivityStartable {
 
     private boolean searchCityByName(String name) {
         // TODO get list city based on name
-        System.out.println("Searching : " + name);
-        cityList.addAll(cities);
-
-        int a=10;
+        System.out.println("Searching :" + name);
+        cityList = new SearchCityApi(name).getResult();
 
         if (cityList.isEmpty()) {
             System.out.println("data not found");
@@ -66,16 +67,12 @@ public class SaveCityActivity implements ActivityStartable {
 
     private void saveCity(int choosenCityNumber) {
         City city = cityList.get(choosenCityNumber - 1);
+        String cityWeatherJson = new SaveCityApi(city).getResult();
 
-        // TODO save city into files
+        String writtenToFile = String.format("%s %s", city.getName(), cityWeatherJson);
+        FileManager.getInstance().saveCity(writtenToFile);
 
         System.out.printf("City with name %s has been saved%n", city.getName());
 
     }
-
-    // Dummy : Delete later
-    private ArrayList<City> cities = new ArrayList<>(Arrays.asList(
-            new City("San Fransisco", "city", 12123123, "123, 123", null),
-            new City("Frankfurt", "city", 12123123, "123, 123", null)
-    ));
 }
