@@ -1,6 +1,11 @@
 package me.mahfud.activity;
 
 import me.mahfud.model.City;
+import me.mahfud.model.Weather;
+import me.mahfud.util.api.SearchCityApi;
+import me.mahfud.util.api.SearchCoordinateApi;
+import me.mahfud.util.api.WeatherCityApi;
+import me.mahfud.util.printer.CityPrinter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +15,7 @@ import java.util.Scanner;
 public class SearchCoordinateActivity implements ActivityStartable {
 
     private Scanner scanner;
-    private final List<City> cityList = new ArrayList<>();
+    private List<City> cityList = new ArrayList<>();
 
     public SearchCoordinateActivity(Scanner scanner) {
         this.scanner = scanner;
@@ -30,7 +35,7 @@ public class SearchCoordinateActivity implements ActivityStartable {
     }
 
     private String getCoordinateFromQuery(String query) {
-        String strippedQuery = query.replace(ActivityStartable.SEARCH_CITY_NAME, "")
+        String strippedQuery = query.replace(ActivityStartable.SEARCH_CITY_COORDINATE, "")
                 .trim();
 
         return strippedQuery.split(" ", 2)[0];
@@ -38,9 +43,7 @@ public class SearchCoordinateActivity implements ActivityStartable {
 
     private boolean searchCityByCoordinate(String coordinate) {
         System.out.println("Searching coordinate: " + coordinate);
-        cityList.addAll(cities);
-        cityList.size();
-        // TODO get list city based on coordinate
+        cityList = new SearchCoordinateApi(coordinate).getResult();
 
         if (cityList.isEmpty()) {
             System.out.println("data not found");
@@ -66,12 +69,9 @@ public class SearchCoordinateActivity implements ActivityStartable {
     private void showCity(int chosenCityNumber) {
         City city = cityList.get(chosenCityNumber - 1);
 
-        System.out.println("Choosen City : " + city.toString());
-    }
+        List<Weather> weatherList = new WeatherCityApi(city).getResult();
+        city.setWeatherList(weatherList);
 
-    // Dummy : Delete later
-    private ArrayList<City> cities = new ArrayList<>(Arrays.asList(
-            new City("San Fransisco", "city", 12123123, "123, 123", null),
-            new City("Frankfurt", "city", 12123123, "123, 123", null)
-    ));
+        new CityPrinter(city).printWeather();
+    }
 }
