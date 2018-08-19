@@ -1,7 +1,17 @@
 package me.mahfud.activity;
 
 import me.mahfud.model.City;
+import me.mahfud.model.Weather;
+import me.mahfud.util.api.SearchCityApi;
+import me.mahfud.util.api.WeatherCityApi;
+import me.mahfud.util.parser.CityListParser;
+import me.mahfud.util.printer.CityPrinter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +20,7 @@ import java.util.Scanner;
 public class SearchCityActivity implements ActivityStartable {
 
     private Scanner scanner;
-    private final List<City> cityList = new ArrayList<>();
+    private List<City> cityList = new ArrayList<>();
 
     public SearchCityActivity(Scanner scanner) {
         this.scanner = scanner;
@@ -38,8 +48,8 @@ public class SearchCityActivity implements ActivityStartable {
 
     private boolean searchCityByName(String name) {
         System.out.println("Searching : " + name);
-        cityList.addAll(cities);
-        // TODO get list city based on name
+
+        cityList = new SearchCityApi(name).getResult();
 
         if (cityList.isEmpty()) {
             System.out.println("data not found");
@@ -65,12 +75,10 @@ public class SearchCityActivity implements ActivityStartable {
     private void showCity(int chosenCityNumber) {
         City city = cityList.get(chosenCityNumber - 1);
 
-        System.out.println(city.toString());
+        List<Weather> weatherList = new WeatherCityApi(city).getResult();
+        city.setWeatherList(weatherList);
+
+        new CityPrinter(city).printWeather();
     }
 
-    // Dummy : Delete later
-    private ArrayList<City> cities = new ArrayList<>(Arrays.asList(
-            new City("San Fransisco", "city", 12123123, "123, 123", null),
-            new City("Frankfurt", "city", 12123123, "123, 123", null)
-    ));
 }
