@@ -15,8 +15,6 @@ public class SearchCoordinateApi {
 
     public List<City> getResult() {
         String apiResult = new ApiCall().getApiResult("location/search/?lattlong=" + query);
-
-        System.out.println(apiResult);
         return new CityListParser(apiResult).getListCity();
     }
 }
