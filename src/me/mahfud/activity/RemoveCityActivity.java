@@ -5,34 +5,30 @@ import me.mahfud.model.City;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class RemoveCityActivity implements ActivityStartable {
 
+    private Scanner scanner;
     private final List<City> cityList = new ArrayList<>();
 
-    @Override
-    public String getPattern() {
-        return "weather remove";
+    public RemoveCityActivity(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     @Override
     public void start(String query) {
-        String queryName = getNameFromQuery(query);
 
-        boolean dataFound = searchCityByName(queryName);
+        boolean dataFound = loadCity();
 
-        if (dataFound) {
-            int choosenCityNumber = chooseCity();
+        if ( !dataFound ) return;
 
-            saveCity(choosenCityNumber);
-        }
+        int chosenCityNumber = chooseCity();
+
+        removeCity(chosenCityNumber);
     }
 
-    private String getNameFromQuery(String query) {
-        return "";
-    }
-
-    private boolean searchCityByName(String queryName) {
+    private boolean loadCity() {
 
         if (cityList.isEmpty()) {
             System.out.println("data not found");
@@ -47,13 +43,17 @@ public class RemoveCityActivity implements ActivityStartable {
     }
 
     private int chooseCity() {
-        System.out.print("Which one that you want to see(in number, ex: 1) ?");
+        System.out.print("Which one, data that you want to remove(in number, ex: 1) ?");
 
-        return 0;
+        String chosenIndex = scanner.nextLine();
+
+        return Integer.parseInt(chosenIndex);
     }
 
-    private void saveCity(int choosenCityNumber) {
-        City city = cityList.get(choosenCityNumber - 1);
-        // TODO city get number
+    private void removeCity(int chosenCityNumber) {
+        City city = cityList.get(chosenCityNumber - 1);
+
+        // TODO action remove city from database
+        System.out.printf("City with name %s has been removed%n", city.getName());
     }
 }

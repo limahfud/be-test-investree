@@ -1,17 +1,29 @@
 package me.mahfud.activity;
 
 import me.mahfud.model.City;
+import me.mahfud.model.Weather;
+import me.mahfud.util.api.SearchCityApi;
+import me.mahfud.util.api.WeatherCityApi;
+import me.mahfud.util.parser.CityListParser;
+import me.mahfud.util.printer.CityPrinter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
-public class SearchCityActivity implements ActivityStartable{
+public class SearchCityActivity implements ActivityStartable {
 
-    private final List<City> cityList = new ArrayList<>();
+    private Scanner scanner;
+    private List<City> cityList = new ArrayList<>();
 
-    @Override
-    public String getPattern() {
-        return "weather search city";
+    public SearchCityActivity(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     @Override
@@ -20,20 +32,24 @@ public class SearchCityActivity implements ActivityStartable{
 
         boolean dataFound = searchCityByName(nameQuery);
 
-        if (dataFound) {
-            int choosenCityNumber = chooseCity();
+        if ( !dataFound ) return;
 
-            showCity(choosenCityNumber);
-        }
+        int chosenCityNumber = chooseCity();
+
+        showCity(chosenCityNumber);
     }
 
     private String getNameFromQuery(String query) {
-        // TODO returning string part of name
-        return "";
+        String strippedQuery = query.replace(ActivityStartable.SEARCH_CITY_NAME, "")
+                .trim();
+
+        return strippedQuery.split(" ", 2)[0];
     }
 
     private boolean searchCityByName(String name) {
-        // TODO get list city based on name
+        System.out.println("Searching : " + name);
+
+        cityList = new SearchCityApi(name).getResult();
 
         if (cityList.isEmpty()) {
             System.out.println("data not found");
@@ -49,14 +65,20 @@ public class SearchCityActivity implements ActivityStartable{
     }
 
     private int chooseCity() {
-        System.out.print("Which one that you want to see(in number, ex: 1) ?");
+        System.out.print("Which one that you want to see(in number, ex: 1) ? ");
 
-        // TODO accept input from user and evaluate it as choosen city
-        return 0;
+        String chosenIndex = scanner.nextLine();
+
+        return Integer.parseInt(chosenIndex);
     }
 
-    private void showCity(int choosenCityNumber) {
-        City city = cityList.get(choosenCityNumber - 1);
-        // TODO city get number
+    private void showCity(int chosenCityNumber) {
+        City city = cityList.get(chosenCityNumber - 1);
+
+        List<Weather> weatherList = new WeatherCityApi(city).getResult();
+        city.setWeatherList(weatherList);
+
+        new CityPrinter(city).printWeather();
     }
+
 }

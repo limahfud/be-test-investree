@@ -1,8 +1,14 @@
 package me.mahfud;
 
+import me.mahfud.model.Weather;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
+        WeatherApp weatherApp = new WeatherApp();
+
+        weatherApp.run();
+
     }
 }

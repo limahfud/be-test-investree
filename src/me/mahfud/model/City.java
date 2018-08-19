@@ -6,6 +6,7 @@ public class City {
 
     private String name;
     private String lattLong;
+
     private Integer woeid;
     private String type;
 
@@ -21,6 +22,10 @@ public class City {
 
     public List<Weather> getWeatherList() {
         return weatherList;
+    }
+
+    public Integer getWoeid() {
+        return woeid;
     }
 
     public String getName() {

@@ -54,4 +54,15 @@ public class Weather {
     public void setTemp(int temp) {
         this.temp = temp;
     }
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "date='" + date + '\'' +
+                ", weather='" + weather + '\'' +
+                ", minTemp=" + minTemp +
+                ", maxTemp=" + maxTemp +
+                ", temp=" + temp +
+                '}';
+    }
 }
