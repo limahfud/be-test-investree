@@ -4,16 +4,9 @@ import me.mahfud.model.City;
 import me.mahfud.model.Weather;
 import me.mahfud.util.api.SearchCityApi;
 import me.mahfud.util.api.WeatherCityApi;
-import me.mahfud.util.parser.CityListParser;
 import me.mahfud.util.printer.CityPrinter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
