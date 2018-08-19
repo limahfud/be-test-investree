@@ -72,6 +72,7 @@ public class SearchCityActivity implements ActivityStartable {
         city.setWeatherList(weatherList);
 
         new CityPrinter(city).printWeather();
+        System.out.println();
     }
 
 }

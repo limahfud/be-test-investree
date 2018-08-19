@@ -2,6 +2,7 @@ package me.mahfud.activity;
 
 
 import me.mahfud.model.City;
+import me.mahfud.util.file.FileManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 public class RemoveCityActivity implements ActivityStartable {
 
     private Scanner scanner;
-    private final List<City> cityList = new ArrayList<>();
+    private List<City> cityList = new ArrayList<>();
 
     public RemoveCityActivity(Scanner scanner) {
         this.scanner = scanner;
@@ -29,6 +30,7 @@ public class RemoveCityActivity implements ActivityStartable {
     }
 
     private boolean loadCity() {
+        cityList = FileManager.getInstance().listCitySaved();
 
         if (cityList.isEmpty()) {
             System.out.println("data not found");
@@ -53,7 +55,7 @@ public class RemoveCityActivity implements ActivityStartable {
     private void removeCity(int chosenCityNumber) {
         City city = cityList.get(chosenCityNumber - 1);
 
-        // TODO action remove city from database
-        System.out.printf("City with name %s has been removed%n", city.getName());
+        FileManager.getInstance().removeCity(city.getName() + " " + "dummy");
+        System.out.printf("City with name %s has been removed%n%n", city.getName());
     }
 }

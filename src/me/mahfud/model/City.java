@@ -6,11 +6,11 @@ public class City {
 
     private String name;
     private String lattLong;
-
     private Integer woeid;
     private String type;
 
     private List<Weather> weatherList;
+    private String rawWeather = "";
 
     public City(String name, String type, Integer woeid, String lattLong, List<Weather> weatherList) {
         this.name = name;
@@ -36,15 +36,11 @@ public class City {
         this.weatherList = weatherList;
     }
 
+    public String getRawWeather() {
+        return rawWeather;
+    }
 
-    @Override
-    public String toString() {
-        return "City{" +
-                "name='" + name + '\'' +
-                ", lattLong='" + lattLong + '\'' +
-                ", woeid=" + woeid +
-                ", type='" + type + '\'' +
-                ", weatherList=" + weatherList +
-                '}';
+    public void setRawWeather(String rawWeather) {
+        this.rawWeather = rawWeather;
     }
 }

@@ -14,6 +14,7 @@ public class WeatherApp {
     }
 
     public void run() {
+        System.out.print("Weather App > ");
         String command = scan(Constant.BLANK_STRING);
         while (! command.equals("exit")) {
             ActivityStartable activityStartable = getActivity(command);
@@ -24,6 +25,7 @@ public class WeatherApp {
                 System.out.println("Sorry, the command is not found.");
             }
 
+            System.out.print("Weather App > ");
             command = scan(Constant.BLANK_STRING);
         }
     }

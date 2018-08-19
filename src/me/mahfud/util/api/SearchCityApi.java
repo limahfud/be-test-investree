@@ -15,7 +15,6 @@ public class SearchCityApi {
 
     public List<City> getResult() {
         String apiResult = new ApiCall().getApiResult("location/search/?query=" + query);
-
         return new CityListParser(apiResult).getListCity();
     }
 
